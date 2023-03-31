@@ -15,6 +15,7 @@ def callback(pcd):
     
     while pcd.data is None:
         rospy.loginfo('Lidar data is empty...')
+        continue
     
     current_pcd = pre_processing(pcd)
     
