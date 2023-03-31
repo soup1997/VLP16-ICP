@@ -10,11 +10,10 @@ pose = [0, 0, 0]
 odom = []
 prev_pcd = None
 
-def callback(pcd):
-    global prev_pcd
-    
+def lidar_callback(pcd):
     while pcd.data is None:
         rospy.loginfo('Lidar data is empty...')
+        return
     
     current_pcd = pre_processing(pcd)
     
@@ -31,6 +30,6 @@ def callback(pcd):
 if __name__ == '__main__':
     rospy.init_node('ICP', anonymous=True)
     rospy.loginfo('ICP' + ' is now working...')
-    rospy.Subscriber('/velodyne_points', PointCloud2, callback, queue_size=3)
+    rospy.Subscriber('/velodyne_points', PointCloud2, lidar_callback, queue_size=3)
     
     rospy.spin()
