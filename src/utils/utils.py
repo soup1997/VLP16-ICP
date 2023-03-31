@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
-from open3d_ros_helper import open3d_ros_helper as orh
+# -*- coding:utf-8 -*-
 
+import numpy as np
+import ros_numpy
+from sensor_msgs.msg import PointCloud2
+from open3d_ros_helper import open3d_ros_helper as orh
 
 def convert_type1(pcd):
     return orh.rospc_to_o3dpc(pcd, remove_nans=True)
@@ -13,7 +17,7 @@ def outlier_removal(pcd):
     return pcd[0]
 
 def convert_type2(pcd):
-    return orh.o3dpc_to_rospc(pcd, frame_id='velodyne2')    
+    return orh.o3dpc_to_rospc(pcd, frame_id='velodyne')    
 
 def pre_processing(pcd):
     pcd = convert_type1(pcd)
