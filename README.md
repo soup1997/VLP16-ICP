@@ -8,6 +8,8 @@ Odometry 추정
 asdasd
 ```
 ## To do
+* Transform local coordinate to global coordinate
+* sensor fusion with imu(to get rotation matrix)
 * roscpp implementation
 
 ## Reference
