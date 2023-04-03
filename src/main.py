@@ -6,28 +6,30 @@ from sensor_msgs.msg import PointCloud2
 from utils.utils import *
 from utils.icp import icp
 
-pose = [0, 0, 0]
-odom = []
+pose = [-81.4857, 9.0564, 0] # x, y, heading
 prev_pcd = None
 
 def callback(pcd):
-    global prev_pcd
+    global prev_pcd, pose
     
     while pcd.data is None:
         rospy.loginfo('Lidar data is empty...')
+        return None
     
-    current_pcd = pre_processing(pcd)
-    
+    current_local_pcd = pre_processing(pcd)
+ 
     if prev_pcd is not None:
-        H, A = icp(A=current_pcd, B=prev_pcd)
-        
-        res_pcd = np.ones((A.shape[0], 4))
-        
-        res_pcd[:, :3] = A
-        res_pcd = np.dot(H, res_pcd.T).T
-        
-    prev_pcd = current_pcd
+        H, H2d = icp(A=current_local_pcd, B=prev_pcd)
     
+    else:
+        H, H2d = icp(A=current_local_pcd, B=current_local_pcd)
+    
+    pose_T = v2t(pose)
+    pose = t2v(np.dot(H2d, pose_T))
+    draw_pose(pose)
+    
+    prev_pcd = current_local_pcd
+
 if __name__ == '__main__':
     rospy.init_node('ICP', anonymous=True)
     rospy.loginfo('ICP' + ' is now working...')

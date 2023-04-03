@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <launch>
 
+<!-- Bag file play-->
+<node pkg="rosbag" type="play" name="rosbag" args="-l $(find LIDAR_ICP)/wandering.bag"/>
+
+<!--main icp file-->
 <node pkg="LIDAR_ICP" name="LIDAR_ICP" type="main.py" output="screen" />
 <!--<node pkg="tf" name="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map velodyne2 100" /> -->
 
