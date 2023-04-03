@@ -1,5 +1,8 @@
 # VLP16-ICP
-velodyne-vlp16으로 odometry 추정코드를 작성중입니다.
+Odometry 추정
+
+![image](https://user-images.githubusercontent.com/86957779/229492425-9055fcee-f408-4cde-919e-2277f19c11e0.png)
+
 ## Version
 * rospy
 * roscpp
