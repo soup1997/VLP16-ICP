@@ -3,10 +3,14 @@ Odometry 추정
 
 ![image](https://user-images.githubusercontent.com/86957779/229492425-9055fcee-f408-4cde-919e-2277f19c11e0.png)
 
+## Dataset
+I used [Stevens-VLP16-Dataset](https://github.com/TixiaoShan/Stevens-VLP16-Dataset). you can download the dataset from the link.
+
 ## Usage
 ```bash
 asdasd
 ```
+
 ## To do
 * Transform local coordinate to global coordinate
 * sensor fusion with imu(to get rotation matrix)
