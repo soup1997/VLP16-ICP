@@ -1,6 +1,6 @@
 # VLP16-ICP
-Odometry 추정
 
+This is the repository for using the icp algorithm with 3d lidar data. the rotational matrix $R$ and the translation matrix $t$ are obtained to finally estimate odometry.
 ![image](https://user-images.githubusercontent.com/86957779/229492425-9055fcee-f408-4cde-919e-2277f19c11e0.png)
 
 ## Dataset
