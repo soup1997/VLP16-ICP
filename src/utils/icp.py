@@ -81,7 +81,7 @@ def nearest_neighbor(src, dst):
         indices: dst indices of the nearest neighbor(모집단 행렬에서 가장 가까운 점의 인덱스)
     '''
     
-    neighbors = NearestNeighbors(n_neighbors=1, algorithm='kd_tree') # 1 clusters
+    neighbors = NearestNeighbors(n_neighbors=1, algorithm='ball_tree')
     neighbors.fit(dst)
 
     distances, indices = neighbors.kneighbors(
