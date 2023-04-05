@@ -77,8 +77,8 @@ def nearest_neighbor(src, dst):
         src: Nxm array of points
         dst: Nxm array of points
     Output:
-        distances: Euclidean distances of the nearest neighbor
-        indices: dst indices of the nearest neighbor
+        distances: Euclidean distances of the nearest neighbor(포인트까지의 길이를 나타내는 배열)
+        indices: dst indices of the nearest neighbor(모집단 행렬에서 가장 가까운 점의 인덱스)
     '''
     
     neighbors = NearestNeighbors(n_neighbors=1, algorithm='kd_tree') # 1 clusters
