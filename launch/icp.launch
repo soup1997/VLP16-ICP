@@ -2,7 +2,7 @@
 <launch>
 
 <!-- Bag file play-->
-<node pkg="rosbag" type="play" name="rosbag" args="-l $(find LIDAR_ICP)/wandering.bag"/>
+<node pkg="rosbag" type="play" name="rosbag" args="-l /home/soup1997/Downloads/wandering.bag"/>
 
 <!--main icp file-->
 <node pkg="LIDAR_ICP" name="LIDAR_ICP" type="main.py" output="screen" />

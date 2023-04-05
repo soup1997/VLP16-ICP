@@ -79,7 +79,7 @@ def voxel_down(pcd):
 
 
 def outlier_removal(pcd):
-    pcd = pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=2.0)
+    pcd = pcd.remove_statistical_outlier(nb_neighbors=10, std_ratio=10.0)
     return pcd[0]
 
 

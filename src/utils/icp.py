@@ -81,7 +81,7 @@ def nearest_neighbor(src, dst):
         indices: dst indices of the nearest neighbor
     '''
     
-    neighbors = NearestNeighbors(n_neighbors=1, algorithm='kd_tree') # 1 clusters
+    neighbors = NearestNeighbors(n_neighbors=1, algorithm='ball_tree')
     neighbors.fit(dst)
 
     distances, indices = neighbors.kneighbors(
