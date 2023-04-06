@@ -3,7 +3,7 @@
 
 import rospy
 import numpy as np
-from ros_numpy.point_cloud2 import pointcloud2_to_xyz_array
+from ros_numpy.point_cloud2 import pointcloud2_to_xyz_array, pointcloud2_to_array
 from open3d_ros_helper import open3d_ros_helper as orh
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Path
@@ -40,7 +40,6 @@ def t2v(transform):
     v[:2] = transform[:2, 2]  # tx, ty
     # atan(np.sin(theta), np.cos(theta))
     v[2] = np.arctan2(transform[1, 0], transform[0, 0])
-
     return v
 
 
