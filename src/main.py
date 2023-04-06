@@ -6,8 +6,8 @@ from sensor_msgs.msg import PointCloud2
 from utils.utils import *
 from utils.icp import icp
 
-pose = [-81.4857, 9.0564, 0] # x, y, heading
-pose = [0, 0, 0] # x, y, heading
+pose = [-81.4857, 6.0564, 0] # x, y, heading
+#pose = [0, 0, 0] # x, y, heading
 prev_pcd = None
 
 def callback(pcd):
