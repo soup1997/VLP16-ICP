@@ -26,9 +26,9 @@ roslaunch LIDAR_ICP icp.launch
 ```
 
 ## To do
-* Transform local coordinate to global coordinate
-* sensor fusion with imu(to get rotation matrix)
-* roscpp implementation
+- [ ] Transform local coordinate to global coordinate
+- [ ] sensor fusion with imu(to get rotation matrix)
+- [ ] roscpp implementation
 
 ## Reference
 * http://daddynkidsmakers.blogspot.com/2021/09/icpiterative-closest-point.html
