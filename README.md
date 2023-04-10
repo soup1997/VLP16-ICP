@@ -27,7 +27,7 @@ roslaunch LIDAR_ICP icp.launch
 
 ## To do
 - [ ] Transform local coordinate to global coordinate
-- [ ] sensor fusion with imu(to get rotation matrix)
+- [ ] study about usage of imu
 - [ ] roscpp implementation
 
 ## Reference
