@@ -27,7 +27,7 @@ roslaunch LIDAR_ICP icp.launch
 
 ## To do
 - [ ] Transform local coordinate to global coordinate
-- [ ] study about usage of imu
+- [ ] usage of imu
 - [ ] roscpp implementation
 
 ## Reference
