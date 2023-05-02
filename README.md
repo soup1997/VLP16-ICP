@@ -22,7 +22,7 @@ pip install -r requirements.txt
 ```
 3) just launch icp.launch
 ```bash
-roslaunch LIDAR_ICP icp.launch
+roslaunch lidar_icp_python icp.launch
 ```
 
 ## To do
