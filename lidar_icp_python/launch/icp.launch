@@ -5,7 +5,7 @@
 <node pkg="rosbag" type="play" name="rosbag" args="-l /home/soup1997/Downloads/wandering.bag"/>
 
 <!--main icp file-->
-<node pkg="LIDAR_ICP" name="LIDAR_ICP" type="main.py" output="screen" />
+<node pkg="lidar_icp_python" name="lidar_icp_python" type="main.py" output="screen" />
 <!--<node pkg="tf" name="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map velodyne2 100" /> -->
 
 </launch>
