@@ -1,17 +1,16 @@
 #include <ros/ros.h>
-#include <sensor_msgs/PointCloud2.h>
-#include <std_msgs/String.h>
-#include "gicp.h"
-
-void callback(const sensor_msgs::PointCloud2 &msg) {
-
-}
+#include "lidar_gicp_cpp/gicp.hpp"
 
 int main(int argc, char** argv) {
     ros::init(argc, argv, "gicp_node");
     ros::NodeHandle nh;
-    ros::Subscriber sub = nh.subscribe("velodyne_points", 3, callback);
-    ros::spin();
-    
+    ros::NodeHandle private_nh("~"); // using private parameters in node
+    ros::Rate loop_rate(10);
+
+    while(ros::ok()) {
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
+
     return 0;
 }
