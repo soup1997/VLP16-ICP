@@ -28,7 +28,6 @@ roslaunch lidar_icp_python icp.launch
 ## To do
 - [ ] Transform local coordinate to global coordinate
 - [ ] usage of imu
-- [ ] roscpp implementation
 
 ## Reference
 * https://github.com/krishnasandeep09/ICP_Matching
