@@ -31,5 +31,5 @@ roslaunch lidar_icp_python icp.launch
 - [ ] roscpp implementation
 
 ## Reference
-* http://daddynkidsmakers.blogspot.com/2021/09/icpiterative-closest-point.html
+* https://github.com/krishnasandeep09/ICP_Matching
 * https://github.com/93won/2D_LiDAR_Odom_ICP
