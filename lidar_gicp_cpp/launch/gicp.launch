@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Bag file play -->
+	<node pkg="rosbag" type="play" name="rosbag" args="-l /home/soup1997/Downloads/wandering.bag" />
+	
+	<!-- main gicp node -->
+	<node pkg="lidar_gicp_cpp" type="lidar_gicp_cpp_node" name="gicp_node" output="screen" clear_params="true">
+		<rosparam command="load" file="$(find lidar_gicp_cpp)/gicp_params.yaml" />
+	</node>
+</launch>
