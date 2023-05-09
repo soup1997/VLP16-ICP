@@ -22,7 +22,6 @@ public:
 private:
     void cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg);
     void imuCallback(const sensor_msgs::Imu::ConstPtr &msg);
-    void cropCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr);
     void removeNoise(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr);
     void downsampleCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr);
     void removeGround(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr ground_plane_ptr);
@@ -30,7 +29,7 @@ private:
 
     ros::Subscriber pc_sub;
     ros::Subscriber imu_sub;
-    ros::Publisher pose_pub;
+    ros::Publisher path_pub;
 
     pcl::PointCloud<pcl::PointXYZ> _prev_cloud;
     Eigen::Matrix4f prev_transform;
@@ -44,11 +43,10 @@ private:
     /*---------sub-pub parameters---------*/
     std::string _point_cloud_topic;
     std::string _imu_topic;
-    std::string _pose_topic;
+    std::string _path_topic;
 
     /*---------GICP parameters---------*/
     double _leaf_size;                               // leaf size for voxel grid
-    double _minX, _maxX, _minY, _maxY, _minZ, _maxZ; // min and max pts for box filter
     int _mean_k;                                     // number of neighbors to analyze for each point for noise removal
     double _std_mul;                                 // standard deviation multiplication threshold for noise removal
 
