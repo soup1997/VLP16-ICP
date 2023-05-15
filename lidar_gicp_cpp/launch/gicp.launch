@@ -6,7 +6,7 @@
 
 	<!-- Transform publisher from velodyne to imu_link -->
 	<!--- Reference: https://github.com/RobustFieldAutonomyLab/LeGO-LOAM/issues/19 -->
-	<node pkg="tf" type="static_transform_publisher" name="tf" args="-0.070, -0.030, -0.364 0.0 0.0 0.0 /base_link /imu_link 10"/>
+	<node pkg="tf" type="static_transform_publisher" name="tf" args="-0.070, -0.030, -0.364 0.0 0.0 0.0 /velodyne /imu_link 10"/>
 
 	<!-- main gicp node -->
 	<node pkg="lidar_gicp_cpp" type="lidar_gicp_cpp_node" name="gicp_node" output="screen" clear_params="true">
