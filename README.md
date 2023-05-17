@@ -18,7 +18,7 @@ pip install -r requirements.txt
 2) Place your downloaded bag file in any folder. Change the directory path in `launch/icp.launch`
 ```xml
 <!-- Bag file play-->
-<node pkg="rosbag" type="play" name="rosbag" args="-l /downloaded_dataset/test.bag"/>
+<node pkg="rosbag" type="play" name="rosbag" args="your_bag_file_path"/>
 ```
 3) just launch icp.launch
 ```bash
