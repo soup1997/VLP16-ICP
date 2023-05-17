@@ -4,7 +4,7 @@ This is the repository for using the icp algorithm with 3d lidar data.
 The rotational matrix $R$ and the translation matrix $t$ are obtained to finally estimate odometry.
 
 ## Result
-![image](https://user-images.githubusercontent.com/86957779/230062796-7d048fb0-785d-4389-b153-3f98743d8684.png)
+![image](https://github.com/soup1997/VLP16-ICP/assets/86957779/bb1ce2b6-d272-4eb5-b7b7-1f9b1c0dd851)
 
 ## Dataset
 I used [Stevens-VLP16-Dataset](https://github.com/TixiaoShan/Stevens-VLP16-Dataset). you can download the dataset from the link.
@@ -24,10 +24,6 @@ pip install -r requirements.txt
 ```bash
 roslaunch lidar_icp_python icp.launch
 ```
-
-## To do
-- [ ] Transform local coordinate to global coordinate
-- [ ] usage of imu
 
 ## Reference
 * https://github.com/krishnasandeep09/ICP_Matching
