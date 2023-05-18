@@ -219,6 +219,8 @@ void ICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
         double del_y = diff_time * _speedY;
         Eigen::Translation3f init_translation(del_x, del_y, 0.0);
 
+        // AngleAxisf와 Translation3f의 곱셈 연산은 Eigen::Transform, matrix()를 이용하여 matrix4f로 객체 변환
+        // 행렬 곱 순서에 따라서 Translation 이동 후 Rotation 적용
         Eigen::Matrix4f init_guess = (init_translation * init_rotation).matrix();
         icp.align(*transformed_cloud_ptr, init_guess);
 
@@ -231,8 +233,15 @@ void ICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
 
         Eigen::Matrix4f transform = icp.getFinalTransformation();
         
+        Eigen::Matrix4f curr_transform = transform * prev_transform;
         Eigen::Matrix3f rotation; // rotation matrix;
         Eigen::Vector3f translation; // translation matrix
+
+        translation << curr_transform(0, 3), curr_transform(1, 3), curr_transform(2, 3);
+
+        rotation << curr_transform(0, 0), curr_transform(0, 1), curr_transform(0, 2),
+                    curr_transform(1, 0), curr_transform(1, 1), curr_transform(1, 2),
+                    curr_transform(2, 0), curr_transform(2, 1), curr_transform(2, 2);
 
         Eigen::Quaternionf quat(rotation);
 
@@ -258,6 +267,7 @@ void ICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
         path_pub.publish(path);
 
         _prev_cloud = *filtered_cloud_ptr;
+        prev_transform = curr_transform;
         _prev_time_stamp = msg->header.stamp.toSec();
         seq++;
     }
