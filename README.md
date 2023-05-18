@@ -1,7 +1,10 @@
 # VLP16-ICP
 
-This is the repository for using the icp algorithm with 3d lidar data.    
-The rotational matrix $R$ and the translation matrix $t$ are obtained to finally estimate odometry.
+This is the repository for using the icp algorithm with velodyne VLP 16 pointcloud data.    
+The rotational matrix $R$ and the translation matrix $t$ are obtained to estimate odometry.
+
+- Input: `sensor_msgs/PointCloud2`, `sensor_msgs/Imu`
+- Output: `nav_msgs/Path`
 
 ## Result
 ![image](https://github.com/soup1997/VLP16-ICP/assets/86957779/bb1ce2b6-d272-4eb5-b7b7-1f9b1c0dd851)
