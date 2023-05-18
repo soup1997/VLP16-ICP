@@ -11,18 +11,16 @@ I used [Stevens-VLP16-Dataset](https://github.com/TixiaoShan/Stevens-VLP16-Datas
 
 ## Usage
 My environment is Ubuntu 20.04, ROS Noetic.
-1) Run the following command
-```bash
-pip install -r requirements.txt
-```
-2) Place your downloaded bag file in any folder. Change the directory path in `launch/icp.launch`
+
+1) Place your downloaded bag file in any folder. Change the directory path in `launch/icp.launch`
 ```xml
 <!-- Bag file play-->
 <node pkg="rosbag" type="play" name="rosbag" args="your_bag_file_path"/>
 ```
-3) just launch icp.launch
+2) just launch icp.launch
 ```bash
 roslaunch lidar_icp_python icp.launch
+roslaunch lidar_icp_cpp icp.launch
 ```
 
 ## Reference
