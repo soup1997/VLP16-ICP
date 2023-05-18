@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <launch>
 
-<!-- Bag file play-->
-<node pkg="rosbag" type="play" name="rosbag" args="-l /home/soup1997/Downloads/wandering.bag"/>
+    <!-- Bag file play-->
+    <node pkg="rosbag" type="play" name="rosbag" args="/home/soup1997/Downloads/wandering.bag"/>
 
-<!--main icp file-->
-<node pkg="lidar_icp_python" name="lidar_icp_python" type="main.py" output="screen" />
-<!--<node pkg="tf" name="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map velodyne2 100" /> -->
+    <!--main icp file-->
+    <node pkg="lidar_icp_python" name="lidar_icp_python" type="main.py" output="screen" />
+    <!--<node pkg="tf" name="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map velodyne2 100" /> -->
+
+    <!-- Rviz -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find lidar_icp_python)/rviz/my_config.rviz" />
 
 </launch>

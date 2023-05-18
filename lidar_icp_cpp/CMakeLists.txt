@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(lidar_gicp_cpp)
+project(lidar_icp_cpp)
 
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
@@ -24,7 +24,7 @@ include_directories(
   ${PCL_INCLUDE_DIRS}
 )
 
-add_executable(${PROJECT_NAME}_node src/lidar_gicp_cpp_node.cpp src/gicp.cpp)
+add_executable(${PROJECT_NAME}_node src/lidar_icp_cpp_node.cpp src/icp.cpp)
 
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}

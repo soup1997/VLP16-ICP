@@ -4,22 +4,6 @@
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
 
-def homogenous_2d(H): 
-    sin_pitch = -H[2, 0]
-    pitch = np.arcsin(sin_pitch)
-    sin_yaw = np.arcsin(H[1, 0] / np.cos(pitch))
-    yaw = np.arcsin(sin_yaw)
-    
-    translation = H[:2, 3]
-    tx, ty = translation[0], translation[1] 
-    
-    
-    H2d = np.array([[np.cos(yaw), -np.sin(yaw), tx],
-                          [np.sin(yaw), np.cos(yaw), ty],
-                          [0, 0, 1]], dtype=np.float32)
-
-    return H2d
-
 
 def best_fit_transform(src, dst):
     '''
@@ -145,7 +129,6 @@ def icp(A, B, init_pose=None, max_iterations=100, tolerance=0.001):
         
     # calculate the final transformation
     H =  best_fit_transform(A[:, :m], src[:m,:].T)
-    H2d = homogenous_2d(H)
     print('Loss: {0:.3f}'.format(prev_error - mean_error))
     
-    return H, H2d
+    return H

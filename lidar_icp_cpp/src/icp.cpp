@@ -1,4 +1,4 @@
-#include "lidar_gicp_cpp/gicp.hpp"
+#include "lidar_icp_cpp/icp.hpp"
 
 #include <iostream>
 #include <chrono>
@@ -22,13 +22,13 @@
 #include <pcl/sample_consensus/method_types.h>
 #include <pcl/sample_consensus/model_types.h>
 
-#include <pcl/registration/gicp.h>
+#include <pcl/registration/icp.h>
 
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/transforms.h>
 #include <pcl_ros/point_cloud.h>
 
-GICP::GICP(ros::NodeHandle nh, ros::NodeHandle private_nh) : _prev_accX(0.0), _curr_accX(0.0), _prev_accY(0.0),
+ICP::ICP(ros::NodeHandle nh, ros::NodeHandle private_nh) : _prev_accX(0.0), _curr_accX(0.0), _prev_accY(0.0),
                                                              _curr_accY(0.0), _yaw_rate(0.0), _speedX(0.0),
                                                              _speedY(0.0), is_initial(true), is_imu_start(true)
 {
@@ -70,12 +70,12 @@ GICP::GICP(ros::NodeHandle nh, ros::NodeHandle private_nh) : _prev_accX(0.0), _c
     ROS_INFO("path_topic: %s", _path_topic.c_str());
 
     /*-------------Pub-Sub Definition---------------*/
-    pc_sub = nh.subscribe(_point_cloud_topic, 3, &GICP::cloudCallback, this);
-    imu_sub = nh.subscribe(_imu_topic, 3, &GICP::imuCallback, this);
+    pc_sub = nh.subscribe(_point_cloud_topic, 3, &ICP::cloudCallback, this);
+    imu_sub = nh.subscribe(_imu_topic, 3, &ICP::imuCallback, this);
     path_pub = nh.advertise<nav_msgs::Path>("path", 3);
 }
 
-void GICP::removeNoise(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr)
+void ICP::removeNoise(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr)
 {
     pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sFilter;
     sFilter.setInputCloud(in_cloud_ptr);
@@ -84,7 +84,7 @@ void GICP::removeNoise(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, p
     sFilter.filter(*out_cloud_ptr);
 }
 
-void GICP::downsampleCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr)
+void ICP::downsampleCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr)
 {
     pcl::ApproximateVoxelGrid<pcl::PointXYZ> voxel;
     voxel.setLeafSize(_leaf_size, _leaf_size, _leaf_size);
@@ -92,7 +92,7 @@ void GICP::downsampleCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_pt
     voxel.filter(*out_cloud_ptr);
 }
 
-void GICP::removeGround(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr ground_plane_ptr)
+void ICP::removeGround(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr ground_plane_ptr)
 {
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
     pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
@@ -123,7 +123,7 @@ void GICP::removeGround(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, 
     extract.filter(*ground_plane_ptr);
 }
 
-void GICP::filterCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr)
+void ICP::filterCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr out_cloud_ptr)
 {
     pcl::PointCloud<pcl::PointXYZ>::Ptr voxel_cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr no_noise_cloud_ptr(new pcl::PointCloud<pcl::PointXYZ>);
@@ -132,11 +132,11 @@ void GICP::filterCloud(const pcl::PointCloud<pcl::PointXYZ>::Ptr in_cloud_ptr, p
     
     downsampleCloud(in_cloud_ptr, voxel_cloud_ptr);
     removeNoise(voxel_cloud_ptr, no_noise_cloud_ptr);
-    //removeGround(no_noise_cloud_ptr, no_ground_cloud_ptr, only_ground_cloud_ptr);
-    *out_cloud_ptr = *no_noise_cloud_ptr;  
+    removeGround(no_noise_cloud_ptr, no_ground_cloud_ptr, only_ground_cloud_ptr);
+    *out_cloud_ptr = *no_ground_cloud_ptr;  
 }
 
-void GICP::imuCallback(const sensor_msgs::Imu::ConstPtr &msg)
+void ICP::imuCallback(const sensor_msgs::Imu::ConstPtr &msg)
 {
     if (is_imu_start)
     {
@@ -167,7 +167,7 @@ void GICP::imuCallback(const sensor_msgs::Imu::ConstPtr &msg)
     }
 }
 
-void GICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
+void ICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
 {   
     static int seq = 0;
     static nav_msgs::Path path;
@@ -202,13 +202,13 @@ void GICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
         pcl::fromROSMsg(*msg, *current_cloud_ptr);
         filterCloud(current_cloud_ptr, filtered_cloud_ptr);
 
-        pcl::GeneralizedIterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> gicp;
-        gicp.setTransformationEpsilon(_transform_epsilon);
-        gicp.setMaximumIterations(_max_iters);
-        gicp.setMaxCorrespondenceDistance(_max_correspondence_distance);
-        gicp.setEuclideanFitnessEpsilon(_euclidean_fitness_epsilon);
-        gicp.setInputSource(filtered_cloud_ptr);
-        gicp.setInputTarget(prev_cloud_ptr);
+        pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ> icp;
+        icp.setTransformationEpsilon(_transform_epsilon);
+        icp.setMaximumIterations(_max_iters);
+        icp.setMaxCorrespondenceDistance(_max_correspondence_distance);
+        icp.setEuclideanFitnessEpsilon(_euclidean_fitness_epsilon);
+        icp.setInputSource(filtered_cloud_ptr);
+        icp.setInputTarget(prev_cloud_ptr);
 
         double diff_time = msg->header.stamp.toSec() - _prev_time_stamp;
         double diff_yaw = diff_time * _yaw_rate;
@@ -220,27 +220,19 @@ void GICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
         Eigen::Translation3f init_translation(del_x, del_y, 0.0);
 
         Eigen::Matrix4f init_guess = (init_translation * init_rotation).matrix();
-        gicp.align(*transformed_cloud_ptr, init_guess);
+        icp.align(*transformed_cloud_ptr, init_guess);
 
         end = std::chrono::system_clock::now();
 
-        std::cout << "GICP has converged: " << gicp.hasConverged() << "\tscore: " << gicp.getFitnessScore() << "\n";
+        std::cout << "icp has converged: " << icp.hasConverged() << "\t score: " << icp.getFitnessScore() << "\n"; // low fitness score is best
         
         std::chrono::duration<double> elasped_seconds = end - start;
         std::cout << "elasped time: " << elasped_seconds.count() << "\n";
 
-        Eigen::Matrix4f transform = gicp.getFinalTransformation();
-        std::cout << "Final Transformation matrix\n" << transform << "\n";
+        Eigen::Matrix4f transform = icp.getFinalTransformation();
         
-        Eigen::Matrix4f curr_transform = prev_transform * transform;
         Eigen::Matrix3f rotation; // rotation matrix;
         Eigen::Vector3f translation; // translation matrix
-
-        translation << curr_transform(0, 3), curr_transform(1, 3), curr_transform(2, 3);
-
-        rotation << curr_transform(0, 0), curr_transform(0, 1), curr_transform(0, 2),
-                    curr_transform(1, 0), curr_transform(1, 1), curr_transform(1, 2),
-                    curr_transform(2, 0), curr_transform(2, 1), curr_transform(2, 2);
 
         Eigen::Quaternionf quat(rotation);
 
@@ -251,7 +243,6 @@ void GICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
 
         geometry_msgs::PoseStamped curr_pose;
         curr_pose.header.seq = seq;
-        curr_pose.header.frame_id = "map";
         curr_pose.header.stamp = ros::Time::now();
 
         curr_pose.pose.position.x = translation[0];
@@ -267,7 +258,6 @@ void GICP::cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
         path_pub.publish(path);
 
         _prev_cloud = *filtered_cloud_ptr;
-        prev_transform = curr_transform;
         _prev_time_stamp = msg->header.stamp.toSec();
         seq++;
     }

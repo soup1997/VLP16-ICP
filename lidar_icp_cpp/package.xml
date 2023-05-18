@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>lidar_gicp_cpp</name>
+  <name>lidar_icp_cpp</name>
   <version>0.0.0</version>
-  <description>The lidar_gicp_cpp package</description>
+  <description>The lidar_icp_cpp package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->

@@ -1,5 +1,5 @@
-#ifndef LIDAR_GICP_CPP_GICP_HPP
-#define LIDAR_GICP_CPP_GICP_HPP
+#ifndef LIDAR_ICP_CPP_ICP_HPP
+#define LIDAR_ICP_CPP_ICP_HPP
 
 #include <ros/ros.h>
 #include <message_filters/time_synchronizer.h>
@@ -13,11 +13,11 @@
 #include <pcl/point_types.h>
 #include <pcl/PCLPointCloud2.h>
 
-class GICP
+class ICP
 {
 public:
-    GICP(ros::NodeHandle nh, ros::NodeHandle private_nh);
-    ~GICP(){};
+    ICP(ros::NodeHandle nh, ros::NodeHandle private_nh);
+    ~ICP(){};
 
 private:
     void cloudCallback(const sensor_msgs::PointCloud2::ConstPtr &msg);
@@ -45,7 +45,7 @@ private:
     std::string _imu_topic;
     std::string _path_topic;
 
-    /*---------GICP parameters---------*/
+    /*---------ICP parameters---------*/
     double _leaf_size;                               // leaf size for voxel grid
     int _mean_k;                                     // number of neighbors to analyze for each point for noise removal
     double _std_mul;                                 // standard deviation multiplication threshold for noise removal
