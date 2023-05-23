@@ -1,6 +1,6 @@
 # VLP16-ICP
 
-This is the repository for using the icp algorithm with velodyne VLP 16 pointcloud data.    
+This is the repository  using the icp algorithm with velodyne VLP 16 pointcloud data.    
 The rotational matrix $R$ and the translation matrix $t$ are obtained to estimate odometry.
 
 - Input: `sensor_msgs/PointCloud2`, `sensor_msgs/Imu`
