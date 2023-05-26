@@ -7,7 +7,7 @@ The rotational matrix $R$ and the translation matrix $t$ are obtained to estimat
 - Output: `nav_msgs/Path`
 
 ## Result
-![image](https://github.com/soup1997/VLP16-ICP/assets/86957779/bb1ce2b6-d272-4eb5-b7b7-1f9b1c0dd851)
+![image](https://github.com/soup1997/VLP16-ICP/assets/86957779/ab4c2191-a868-4043-8eee-a6e0fa213bde)
 
 ## Dataset
 I used [Stevens-VLP16-Dataset](https://github.com/TixiaoShan/Stevens-VLP16-Dataset). you can download the dataset from the link.
