@@ -1,6 +1,7 @@
 # VLP16-ICP
 
 This repository utilizes the **Iterative Closest Points(ICP)** algorithm with pointcloud data from the **Velodyne Lidar VLP 16(PUCK)**.
+
 The rotation matrix $R$ and translation matrix $t$ are computed using **ICP** method to estimate odometry.
 
 - Input: `sensor_msgs/PointCloud2`, `sensor_msgs/Imu`
