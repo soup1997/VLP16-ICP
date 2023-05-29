@@ -20,7 +20,7 @@ My environment is Ubuntu 20.04, ROS Noetic.
 <!-- Bag file play-->
 <node pkg="rosbag" type="play" name="rosbag" args="your_bag_file_path"/>
 ```
-2) just launch icp.launch
+2) just launch `icp.launch`
 ```bash
 roslaunch lidar_icp_python icp.launch
 roslaunch lidar_icp_cpp icp.launch
